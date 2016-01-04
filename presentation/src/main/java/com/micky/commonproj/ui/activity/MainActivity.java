@@ -16,6 +16,10 @@ import com.micky.commonproj.ui.view.MainView;
 import com.micky.commonproj.R;
 import com.micky.commonproj.presenter.impl.MainPresenterImpl;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * @Project RetrofitRxAndroidDragger2
  * @Packate com.micky.presentation
@@ -27,30 +31,20 @@ import com.micky.commonproj.presenter.impl.MainPresenterImpl;
  */
 public class MainActivity extends AppCompatActivity implements MainView {
 
-    private EditText mEtIp;
-    private TextView mTvContent;
-    private ProgressBar mProgressBar;
+    @Bind(R.id.et_ip) EditText mEtIp;
+    @Bind(R.id.tv_content) TextView mTvContent;
+    @Bind(R.id.progress_bar) ProgressBar mProgressBar;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
+
     private MainPresenter mMainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        mEtIp = (EditText) findViewById(R.id.et_ip);
-        mTvContent = (TextView) findViewById(R.id.tv_content);
-        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
         mMainPresenter = new MainPresenterImpl(this);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mMainPresenter.getIpInfo(mEtIp.getText().toString());
-            }
-        });
     }
 
     @Override
@@ -66,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.fab) void onFabCLick(View view) {
+        mMainPresenter.getIpInfo(mEtIp.getText().toString());
     }
 
     @Override

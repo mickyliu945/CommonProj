@@ -1,5 +1,7 @@
 package com.micky.commonproj.domain.service;
 
+import com.micky.commonlib.utils.Constants;
+
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
@@ -14,7 +16,6 @@ import retrofit.RxJavaCallAdapterFactory;
  * @Version 1.0
  */
 public class ServiceManager {
-    private static final String ENDPOINT = "http://ip.taobao.com";
 
     private static class ServiceManagerHolder {
         private static final ServiceManager INSTANCE = new ServiceManager();
@@ -31,7 +32,7 @@ public class ServiceManager {
     public ApiService getApiService() {
         if (mApiService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(ENDPOINT)
+                    .baseUrl(Constants.ENDPOINT_WEATHER)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();

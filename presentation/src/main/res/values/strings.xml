@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RetrofitRxAndroidDragger2</string>
+    <string name="app_name">CommonProj</string>
     <string name="action_settings">Settings</string>
     <string name="input_tip_ip">Please input ip address</string>
     <string name="network_error">network error</string>

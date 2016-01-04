@@ -4,12 +4,17 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.micky.commonlib.utils.Constants;
 import com.micky.commonproj.BaseApplication;
+import com.micky.commonproj.domain.model.WeatherResult;
+import com.micky.commonproj.domain.service.response.WeatherResponse;
 import com.micky.commonproj.presenter.MainPresenter;
 import com.micky.commonproj.ui.view.MainView;
 import com.micky.commonproj.R;
 import com.micky.commonproj.domain.service.ServiceManager;
 import com.micky.commonproj.domain.service.response.GetIpInfoResponse;
+
+import java.util.List;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,7 +45,7 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
         }
         mMainView.setAreaText("");
         mMainView.showProgress();
-        ServiceManager.getInstance().getApiService().getIpInfo(ip)
+        /*ServiceManager.getInstance().getApiService().getIpInfo(ip)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GetIpInfoResponse>() {
@@ -59,6 +64,26 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
                     @Override
                     public void onNext(GetIpInfoResponse getIpInfoResponse) {
                         mMainView.setAreaText(getIpInfoResponse.data.country + " " + getIpInfoResponse.data.area);
+                    }
+                });*/
+        ServiceManager.getInstance().getApiService().getWeatherInfo("成都", Constants.BAIDU_AK)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<WeatherResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e(TAG, "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage(), e);
+                    }
+
+                    @Override
+                    public void onNext(WeatherResponse weatherResponse) {
+                        List<WeatherResult> results = weatherResponse.results;
+                        Log.e(TAG, results.toString());
                     }
                 });
     }
