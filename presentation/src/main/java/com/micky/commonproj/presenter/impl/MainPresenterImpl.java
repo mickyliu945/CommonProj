@@ -38,41 +38,19 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
     }
 
     @Override
-    public void getIpInfo(String ip) {
-        if (TextUtils.isEmpty(ip)) {
-            Toast.makeText(BaseApplication.getContext(), R.string.input_tip_ip, Toast.LENGTH_SHORT).show();
+    public void getWeatherData(String place) {
+        if (TextUtils.isEmpty(place)) {
             return;
         }
-        mMainView.setAreaText("");
         mMainView.showProgress();
-        /*ServiceManager.getInstance().getApiService().getIpInfo(ip)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetIpInfoResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        mMainView.hideProgress();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage(), e);
-                        mMainView.hideProgress();
-                        mMainView.setAreaText(BaseApplication.getContext().getString(R.string.network_error));
-                    }
-
-                    @Override
-                    public void onNext(GetIpInfoResponse getIpInfoResponse) {
-                        mMainView.setAreaText(getIpInfoResponse.data.country + " " + getIpInfoResponse.data.area);
-                    }
-                });*/
-        ServiceManager.getInstance().getApiService().getWeatherInfo("成都", Constants.BAIDU_AK)
+        ServiceManager.getInstance().getApiService().getWeatherInfo(place, Constants.BAIDU_AK)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<WeatherResponse>() {
                     @Override
                     public void onCompleted() {
                         Log.e(TAG, "onCompleted");
+                        mMainView.hideProgress();
                     }
 
                     @Override
@@ -82,8 +60,7 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
 
                     @Override
                     public void onNext(WeatherResponse weatherResponse) {
-                        List<WeatherResult> results = weatherResponse.results;
-                        Log.e(TAG, results.toString());
+                        mMainView.setupData(weatherResponse);
                     }
                 });
     }

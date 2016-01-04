@@ -1,5 +1,7 @@
 package com.micky.commonproj.ui.view;
 
+import com.micky.commonproj.domain.service.response.WeatherResponse;
+
 /**
  * @Project RetrofitRxAndroidDragger2
  * @Packate com.micky.presentation
@@ -12,5 +14,5 @@ package com.micky.commonproj.ui.view;
 public interface MainView {
     void showProgress();
     void hideProgress();
-    void setAreaText(String text);
+    void setupData(WeatherResponse response);
 }

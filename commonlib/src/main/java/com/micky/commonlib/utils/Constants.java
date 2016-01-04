@@ -13,4 +13,6 @@ public class Constants {
     public static final String ENDPOINT_IP = "http://ip.taobao.com";
     public static final String ENDPOINT_WEATHER = " http://api.map.baidu.com";
     public static final String BAIDU_AK = "MPDgj92wUYvRmyaUdQs1XwCf";
+
+    public static final boolean DEBUG = true;
 }

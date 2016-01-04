@@ -3,7 +3,10 @@ package com.micky.commonproj;
 import android.app.Application;
 import android.content.Context;
 
+import com.micky.commonlib.utils.Constants;
 import com.micky.commonlib.utils.CrashHandler;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 /**
  * @Project RetrofitRxAndroidDragger2
@@ -15,15 +18,24 @@ import com.micky.commonlib.utils.CrashHandler;
  * @Version 1.0
  */
 public class BaseApplication extends Application {
-    private static Context mContext;
+    private static BaseApplication instance;
+
+    private RefWatcher mRefWatcher;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = this;
+        instance = this;
         CrashHandler.getInstance().init(this);
+        mRefWatcher = Constants.DEBUG ?  LeakCanary.install(this) : RefWatcher.DISABLED;
     }
 
-    public static final Context getContext() {
-        return mContext;
+    public static BaseApplication getInstance() {
+        return instance;
     }
+
+    public static RefWatcher getRefWatcher() {
+        return getInstance().mRefWatcher;
+    }
+
 }

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.micky.commonproj">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name="com.micky.commonproj.BaseApplication"
         android:allowBackup="true"
@@ -21,5 +23,5 @@
             </intent-filter>
         </activity>
     </application>
-
+    <uses-sdk tools:overrideLibrary="com.jakewharton.rxbinding" />
 </manifest>

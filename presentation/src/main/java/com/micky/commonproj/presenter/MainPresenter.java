@@ -10,5 +10,5 @@ package com.micky.commonproj.presenter;
  * @Version 1.0
  */
 public interface MainPresenter extends BasePresenter {
-    void getIpInfo(String ip);
+    void getWeatherData(String place);
 }
