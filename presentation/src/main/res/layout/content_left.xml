@@ -11,8 +11,10 @@
         android:background="@mipmap/header">
 
     </LinearLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyvler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdge="none"
+        android:overScrollMode="never"/>
 </LinearLayout>

@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -37,7 +36,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity implements MainView {
 
     @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
-    @Bind(R.id.recyvler_view) RecyclerView mRecyclerView;
+    @Bind(R.id.rv_left) RecyclerView mRvWeatherData;
+    @Bind(R.id.recyvler_view) RecyclerView mRvWeatherExtra;
     @Bind(R.id.progress_bar) ProgressBar mProgressBar;
     @Bind(R.id.tv_date) TextView mTvDate;
     @Bind(R.id.tv_city) TextView mTvCity;
@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity implements MainView {
 
     private MainPresenter mMainPresenter;
     private WeatherExtraAdapter mWeatherExtraAdapter;
+    private WeatherDataAdapter mWeatherDataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +77,18 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     private void initView() {
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.addItemDecoration(new ItemDecoration(this));
-        mWeatherExtraAdapter = new WeatherExtraAdapter();
+        mRvWeatherData.setHasFixedSize(true);
+        mRvWeatherData.addItemDecoration(new ItemDecoration(this));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(mWeatherExtraAdapter);
+        mRvWeatherData.setLayoutManager(linearLayoutManager);
+        mWeatherDataAdapter = new WeatherDataAdapter();
+        mRvWeatherData.setAdapter(mWeatherDataAdapter);
+
+        mRvWeatherExtra.setHasFixedSize(true);
+        mRvWeatherExtra.setLayoutManager(linearLayoutManager);
+        mWeatherExtraAdapter = new WeatherExtraAdapter();
+        mRvWeatherExtra.setAdapter(mWeatherExtraAdapter);
     }
 
     public void setupData(WeatherResponse weatherResponse) {
@@ -92,6 +98,10 @@ public class MainActivity extends BaseActivity implements MainView {
             WeatherResult result = weatherResponse.results.get(0);
             mTvCity.setText(getString(R.string.city, result.currentCity));
             mTvPm25.setText(getString(R.string.pm25, result.pm25));
+
+            mWeatherDataAdapter.setData(result.weather_data);
+            mWeatherDataAdapter.notifyDataSetChanged();
+
             mWeatherExtraAdapter.setData(result.index);
             mWeatherExtraAdapter.notifyDataSetChanged();
         }
