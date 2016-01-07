@@ -1,11 +1,13 @@
 package com.micky.commonproj.ui.adapter;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.micky.commonproj.R;
 import com.micky.commonproj.domain.model.WeatherData;
 import com.micky.commonproj.domain.model.WeatherExtra;
@@ -36,7 +38,7 @@ public class WeatherDataAdapter extends BaseListAdapter<WeatherData> {
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         WeatherData weatherData = getItem(position);
         itemViewHolder.tvDate.setText(weatherData.date);
-        itemViewHolder.sdvWeather.setImageUri(weatherData.dayPictureUrl);
+        itemViewHolder.sdvWeather.setImageURI(Uri.parse(weatherData.dayPictureUrl));
         itemViewHolder.tvWeather.setText(weatherData.weather);
         itemViewHolder.tvTemperature.setText(weatherData.temperature);
     }

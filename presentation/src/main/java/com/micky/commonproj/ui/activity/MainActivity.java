@@ -87,6 +87,8 @@ public class MainActivity extends BaseActivity implements MainView {
         mRvWeatherData.setAdapter(mWeatherDataAdapter);
 
         mRvWeatherExtra.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRvWeatherExtra.setLayoutManager(linearLayoutManager);
         mWeatherExtraAdapter = new WeatherExtraAdapter();
         mRvWeatherExtra.setAdapter(mWeatherExtraAdapter);
