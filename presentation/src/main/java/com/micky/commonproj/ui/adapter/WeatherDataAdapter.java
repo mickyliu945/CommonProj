@@ -38,7 +38,7 @@ public class WeatherDataAdapter extends BaseListAdapter<WeatherData> {
         itemViewHolder.tvDate.setText(weatherData.date);
         itemViewHolder.sdvWeather.setImageUri(weatherData.dayPictureUrl);
         itemViewHolder.tvWeather.setText(weatherData.weather);
-        itemViewHolder.tv_temperature.setText(weatherData.temperature);
+        itemViewHolder.tvTemperature.setText(weatherData.temperature);
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{

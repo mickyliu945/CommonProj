@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.micky.commonproj.domain.model.WeatherResult;
 import com.micky.commonproj.domain.service.response.WeatherResponse;
 import com.micky.commonproj.presenter.MainPresenter;
+import com.micky.commonproj.ui.adapter.WeatherDataAdapter;
 import com.micky.commonproj.ui.adapter.WeatherExtraAdapter;
 import com.micky.commonproj.ui.view.ItemDecoration;
 import com.micky.commonproj.ui.view.MainView;
