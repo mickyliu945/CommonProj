@@ -1,6 +1,9 @@
 package com.micky.commonproj.ui.activity;
 
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +36,7 @@ import butterknife.ButterKnife;
  */
 public class MainActivity extends BaseActivity implements MainView {
 
+    @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @Bind(R.id.recyvler_view) RecyclerView mRecyclerView;
     @Bind(R.id.progress_bar) ProgressBar mProgressBar;
     @Bind(R.id.tv_date) TextView mTvDate;
@@ -49,21 +53,23 @@ public class MainActivity extends BaseActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+        final ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.mipmap.menu);
+        ab.setDisplayHomeAsUpEnabled(true);
+
+        setTitle("");
         mMainPresenter = new MainPresenterImpl(this);
         initView();
         mMainPresenter.getWeatherData("成都");
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == android.R.id.home){
+            mDrawerLayout.openDrawer(GravityCompat.START);
             return true;
         }
         return super.onOptionsItemSelected(item);

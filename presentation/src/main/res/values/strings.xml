@@ -3,6 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="input_tip_ip">Please input ip address</string>
     <string name="network_error">network error</string>
-    <string name="pm25">PM值:%s</string>
+    <string name="pm25">空气质量:%s</string>
     <string name="city">城市:%s</string>
+    <string name="weather_content">%1$s : %2$s</string>
 </resources>

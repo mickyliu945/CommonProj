@@ -36,15 +36,13 @@ public class WeatherExtraAdapter extends BaseListAdapter<WeatherExtra> {
         WeatherExtra weatherExtra = getItem(position);
         itemViewHolder.tvTitle.setText(weatherExtra.title);
         itemViewHolder.tvZs.setText(weatherExtra.zs);
-        itemViewHolder.tvTipt.setText(weatherExtra.tipt);
-        itemViewHolder.tvDes.setText(weatherExtra.des);
+        itemViewHolder.tvTipt.setText(holder.itemView.getContext().getString(R.string.weather_content, weatherExtra.tipt, weatherExtra.des));
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
         @Bind(R.id.tv_title) TextView tvTitle;
         @Bind(R.id.tv_zs) TextView tvZs;
         @Bind(R.id.tv_tipt) TextView tvTipt;
-        @Bind(R.id.tv_des) TextView tvDes;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
