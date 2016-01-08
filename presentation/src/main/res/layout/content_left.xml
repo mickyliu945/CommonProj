@@ -5,16 +5,18 @@
     android:layout_height="match_parent"
     android:background="@color/main_bg"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:background="@mipmap/header">
 
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_left"
+        android:id="@+id/rv_place"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:fadingEdge="none"
-        android:overScrollMode="never"/>
+        android:overScrollMode="never" />
 </LinearLayout>

@@ -12,19 +12,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ToolBarStyle" />
+        <include layout="@layout/view_toolbar" />
 
         <include layout="@layout/content_main" />
     </LinearLayout>
-
     <include layout="@layout/content_left"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"/>
+    <include layout="@layout/content_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"/>
 </android.support.v4.widget.DrawerLayout>

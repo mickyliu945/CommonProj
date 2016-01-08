@@ -3,6 +3,7 @@ package com.micky.commonproj;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.micky.commonlib.utils.Constants;
 import com.micky.commonlib.utils.CrashHandler;
 import com.squareup.leakcanary.LeakCanary;
@@ -28,6 +29,7 @@ public class BaseApplication extends Application {
         instance = this;
         CrashHandler.getInstance().init(this);
         mRefWatcher = Constants.DEBUG ?  LeakCanary.install(this) : RefWatcher.DISABLED;
+        Fresco.initialize(this);
     }
 
     public static BaseApplication getInstance() {

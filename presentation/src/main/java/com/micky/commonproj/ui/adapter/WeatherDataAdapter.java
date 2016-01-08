@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.jakewharton.rxbinding.view.RxView;
 import com.micky.commonproj.R;
 import com.micky.commonproj.domain.model.WeatherData;
 import com.micky.commonproj.domain.model.WeatherExtra;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 /**
  * @Package com.micky.commonproj.ui.adapter
@@ -49,7 +53,7 @@ public class WeatherDataAdapter extends BaseListAdapter<WeatherData> {
         @Bind(R.id.tv_weather) TextView tvWeather;
         @Bind(R.id.tv_temperature) TextView tvTemperature;
 
-        public ItemViewHolder(View itemView) {
+        public ItemViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
