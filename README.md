@@ -1,3 +1,17 @@
-应用Retrofit、RxAndroid、Dagger2实现MVP项目框架
+<h2>使用RxAndroid、Retrofit、MVP模式实现的简易天气APP<h2>
 </br>
-详情请见：http://blog.csdn.net/liuhongwei123888/article/details/50375897
+ ![](https://github.com/mickyliu945/CommonProj/blob/master/screenshots/a.png)
+</br>
+</br>
+</br>
+</br>
+ ![](https://github.com/mickyliu945/CommonProj/blob/master/screenshots/b.png)
+</br>
+</br>
+</br>
+</br>
+ ![](https://github.com/mickyliu945/CommonProj/blob/master/screenshots/c.png)
+</br>
+</br>
+</br>
+</br>
