@@ -6,8 +6,15 @@ import android.content.Context;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.micky.commonlib.utils.Constants;
 import com.micky.commonlib.utils.CrashHandler;
+import com.micky.commonlib.utils.FileUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+
+import org.apache.log4j.Level;
+
+import java.io.File;
+
+import de.mindpipe.android.logging.log4j.LogConfigurator;
 
 /**
  * @Project RetrofitRxAndroidDragger2
@@ -30,6 +37,7 @@ public class BaseApplication extends Application {
         CrashHandler.getInstance().init(this);
         mRefWatcher = Constants.DEBUG ?  LeakCanary.install(this) : RefWatcher.DISABLED;
         Fresco.initialize(this);
+        initLog4j();
     }
 
     public static BaseApplication getInstance() {
@@ -40,4 +48,29 @@ public class BaseApplication extends Application {
         return getInstance().mRefWatcher;
     }
 
+    private void initLog4j() {
+        final LogConfigurator logConfigurator = new LogConfigurator();
+
+        String logPath = FileUtils.getLogFilePath();
+        try {
+            if (!"".equals(logPath)) {
+                File file = new File(logPath);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                logPath += File.separator + Constants.LOG_FILE;
+                file = new File(logPath);
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                logConfigurator.setFileName(logPath);
+            }
+            Level level = Constants.DEBUG ? Level.ALL : Level.ERROR;
+            logConfigurator.setRootLevel(level);
+            logConfigurator.setLevel("org.apache", Level.ALL);
+            logConfigurator.configure();
+        } catch (Exception e) {
+            android.util.Log.e("Application", e.getMessage(), e);
+        }
+    }
 }

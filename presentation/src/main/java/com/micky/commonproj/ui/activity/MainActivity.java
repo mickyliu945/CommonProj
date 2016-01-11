@@ -74,7 +74,8 @@ public class MainActivity extends BaseActivity implements MainView {
 //        mMainPresenter.getPlaceData();
 //        mMainPresenter.getWeatherData("成都");
 
-        mMainPresenter.getPlaceAndWeatherData();
+        mMainPresenter.getPlaceAndWeatherData("成都");
+
     }
 
     @Override

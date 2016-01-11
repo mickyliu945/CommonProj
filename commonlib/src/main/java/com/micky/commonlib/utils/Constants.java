@@ -1,5 +1,7 @@
 package com.micky.commonlib.utils;
 
+import java.io.File;
+
 /**
  * @Project RetrofitRxAndroidDragger2
  * @Packate com.micky.commonlib.utils
@@ -15,4 +17,8 @@ public class Constants {
     public static final String BAIDU_AK = "MPDgj92wUYvRmyaUdQs1XwCf";
 
     public static final boolean DEBUG = true;
+
+    public static final String BASE_FILE_PATH = "CommonProj";
+    public static final String LOG_PATH = BASE_FILE_PATH + File.separator + "log";
+    public static final String LOG_FILE = BASE_FILE_PATH + ".log";
 }
