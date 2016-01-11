@@ -2,6 +2,7 @@ package com.micky.commonproj.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.TimeUtils;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
+import com.jakewharton.rxbinding.view.RxView;
 import com.micky.commonlib.utils.DateUtils;
 import com.micky.commonlib.utils.ViewUtils;
 import com.micky.commonproj.domain.model.Place;
@@ -32,8 +35,11 @@ import com.micky.commonproj.R;
 import com.micky.commonproj.presenter.impl.MainPresenterImpl;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
+import rx.Observable;
+import rx.functions.Action1;
 
 /**
  * @Project RetrofitRxAndroidDragger2
@@ -53,6 +59,7 @@ public class MainActivity extends BaseActivity implements MainView {
     @Bind(R.id.progress_bar) ProgressBar mProgressBar;
     @Bind(R.id.tv_city) TextView mTvCity;
     @Bind(R.id.tv_pm25) TextView mTvPm25;
+    @Bind(R.id.fab) FloatingActionButton mFloatingActionBar;
 
     private MainPresenter mMainPresenter;
     private WeatherExtraAdapter mWeatherExtraAdapter;
@@ -71,10 +78,17 @@ public class MainActivity extends BaseActivity implements MainView {
         initView();
 
         mMainPresenter = new MainPresenterImpl(this);
+        mMainPresenter.onCreate();
 //        mMainPresenter.getPlaceData();
-//        mMainPresenter.getWeatherData("成都");
+//        mMainPresenter.getWeatherData("北京");
 
-        mMainPresenter.getPlaceAndWeatherData("成都");
+        mMainPresenter.getPlaceAndWeatherData("北京");
+        RxView.clicks(mFloatingActionBar).throttleFirst(1000, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                mMainPresenter.onRefresh();
+            }
+        });
 
     }
 
@@ -99,6 +113,14 @@ public class MainActivity extends BaseActivity implements MainView {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mMainPresenter != null) {
+            mMainPresenter.onDestroy();
+        }
     }
 
     private void initView() {

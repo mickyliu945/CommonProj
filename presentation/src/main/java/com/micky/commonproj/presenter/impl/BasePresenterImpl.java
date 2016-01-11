@@ -1,6 +1,9 @@
 package com.micky.commonproj.presenter.impl;
 
+import com.micky.commonlib.utils.RxUtils;
 import com.micky.commonproj.presenter.BasePresenter;
+
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * @Project RetrofitRxAndroidDragger2
@@ -12,10 +15,11 @@ import com.micky.commonproj.presenter.BasePresenter;
  * @Version 0.1
  */
 public class BasePresenterImpl implements BasePresenter {
+    protected CompositeSubscription mSubscriptions = new CompositeSubscription();
 
     @Override
     public void onCreate() {
-
+        mSubscriptions = RxUtils.getNewCompositeSubIfUnsubscribed(mSubscriptions);
     }
 
     @Override
@@ -30,6 +34,6 @@ public class BasePresenterImpl implements BasePresenter {
 
     @Override
     public void onDestroy() {
-
+        mSubscriptions.unsubscribe();
     }
 }

@@ -16,4 +16,6 @@ public interface MainPresenter extends BasePresenter {
     void getPlaceData();
 
     void getPlaceAndWeatherData(String place);
+
+    void onRefresh();
 }

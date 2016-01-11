@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.micky.commonlib.utils.Constants;
+import com.micky.commonlib.utils.RxBus;
 import com.micky.commonproj.BaseApplication;
 import com.micky.commonproj.domain.model.Place;
 import com.micky.commonproj.domain.repository.PlaceRepository;
@@ -20,6 +21,7 @@ import java.util.List;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -41,12 +43,25 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        mSubscriptions.add(RxBus.getInstance().toObserverable().subscribe(new Action1<RxBus.BusEvent>() {
+            @Override
+            public void call(RxBus.BusEvent rxBusEvent) {
+                if (rxBusEvent instanceof RefreshEvent) {
+                    getPlaceAndWeatherData("成都");
+                }
+            }
+        }));
+    }
+
+    @Override
     public void getWeatherData(String place) {
         if (TextUtils.isEmpty(place)) {
             return;
         }
         mMainView.showProgress();
-        ServiceManager.getInstance().getApiService().getWeatherInfo(place, Constants.BAIDU_AK)
+        mSubscriptions.add(ServiceManager.getInstance().getApiService().getWeatherInfo(place, Constants.BAIDU_AK)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<WeatherResponse>() {
@@ -65,13 +80,13 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
                     public void onNext(WeatherResponse weatherResponse) {
                         mMainView.setupWeatherData(weatherResponse);
                     }
-                });
+                }));
     }
 
     @Override
     public void getPlaceData() {
         PlaceRepository repository = new PlaceRepository();
-        repository.getPlaceList(BaseApplication.getInstance())
+        mSubscriptions.add(repository.getPlaceList(BaseApplication.getInstance())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Place>>() {
@@ -89,7 +104,7 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
                     public void onError(Throwable e) {
                         mLogger.error(e.getMessage(), e);
                     }
-                });
+                }));
     }
 
     @Override
@@ -99,7 +114,7 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
         Context context = BaseApplication.getInstance();
         Observable placeObservable = repository.getPlaceList(context);
         Observable weatherObservable =  ServiceManager.getInstance().getApiService().getWeatherInfo(place, Constants.BAIDU_AK);
-        Observable.merge(placeObservable, weatherObservable)
+        mSubscriptions.add(Observable.merge(placeObservable, weatherObservable)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Object>() {
@@ -122,6 +137,16 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
                             mMainView.setupWeatherData((WeatherResponse) obj);
                         }
                     }
-                });
+                }));
     }
+
+    @Override
+    public void onRefresh() {
+        RxBus rxBus = RxBus.getInstance();
+        if (rxBus.hasObservers()) {
+            rxBus.send(new RefreshEvent());
+        }
+    }
+
+    static class RefreshEvent extends RxBus.BusEvent{}
 }
