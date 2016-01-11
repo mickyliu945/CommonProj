@@ -52,14 +52,4 @@ public class PlaceRepository {
             }
         });
     }
-    private <T> Observable.Transformer<T, T> applySchedulers() {
-        return new Observable.Transformer<T, T>() {
-            @Override
-            public Observable<T> call(Observable<T> observable) {
-                return observable.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
-    }
-
 }

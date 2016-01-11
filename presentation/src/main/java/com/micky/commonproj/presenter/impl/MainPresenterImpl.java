@@ -114,6 +114,7 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
         Context context = BaseApplication.getInstance();
         Observable placeObservable = repository.getPlaceList(context);
         Observable weatherObservable =  ServiceManager.getInstance().getApiService().getWeatherInfo(place, Constants.BAIDU_AK);
+
         mSubscriptions.add(Observable.merge(placeObservable, weatherObservable)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
