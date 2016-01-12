@@ -60,6 +60,7 @@ public class MainActivity extends BaseActivity implements MainView {
     @Bind(R.id.tv_city) TextView mTvCity;
     @Bind(R.id.tv_pm25) TextView mTvPm25;
     @Bind(R.id.fab) FloatingActionButton mFloatingActionBar;
+    @Bind(R.id.tv_empty_data) TextView mTvEmptyData;
 
     private MainPresenter mMainPresenter;
     private WeatherExtraAdapter mWeatherExtraAdapter;
@@ -167,6 +168,8 @@ public class MainActivity extends BaseActivity implements MainView {
 
             mWeatherExtraAdapter.setData(result.index);
             mWeatherExtraAdapter.notifyDataSetChanged();
+            int visibility = mWeatherDataAdapter.getItemCount() == 0 ? View.GONE : View.VISIBLE;
+            mTvEmptyData.setVisibility(visibility);
         }
     }
 

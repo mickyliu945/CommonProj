@@ -6,4 +6,5 @@
     <string name="pm25">空气质量:%s</string>
     <string name="city">城市:%s</string>
     <string name="weather_content">%1$s : %2$s</string>
+    <string name="no_weather_index">暂无天气推荐数据，请查看左侧栏最近天气信息</string>
 </resources>
