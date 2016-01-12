@@ -156,6 +156,7 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     public void setupWeatherData(WeatherResponse weatherResponse) {
+        int visibility = View.GONE;
         if (weatherResponse == null) return;
         setTitleText(DateUtils.getWeekDay(weatherResponse.date));
         if (weatherResponse.results != null && weatherResponse.results.size() > 0) {
@@ -168,9 +169,9 @@ public class MainActivity extends BaseActivity implements MainView {
 
             mWeatherExtraAdapter.setData(result.index);
             mWeatherExtraAdapter.notifyDataSetChanged();
-            int visibility = mWeatherDataAdapter.getItemCount() == 0 ? View.GONE : View.VISIBLE;
-            mTvEmptyData.setVisibility(visibility);
+            visibility = result.index.size() > 0 ? View.VISIBLE : View.GONE;
         }
+        mTvEmptyData.setVisibility(visibility);
     }
 
     @Override
