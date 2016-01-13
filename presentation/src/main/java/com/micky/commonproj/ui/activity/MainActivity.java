@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity implements MainView {
 
             mWeatherExtraAdapter.setData(result.index);
             mWeatherExtraAdapter.notifyDataSetChanged();
-            visibility = result.index.size() > 0 ? View.GONE : View.VISIBLE;
+            visibility = result.index.size() > 0 ? View.VISIBLE : View.GONE;
         }
         mTvEmptyData.setVisibility(visibility);
     }
