@@ -9,6 +9,7 @@ import com.micky.commonlib.utils.RxBus;
 import com.micky.commonproj.BaseApplication;
 import com.micky.commonproj.domain.model.Place;
 import com.micky.commonproj.domain.repository.PlaceRepository;
+import com.micky.commonproj.domain.service.WeatherService;
 import com.micky.commonproj.domain.service.response.WeatherResponse;
 import com.micky.commonproj.presenter.MainPresenter;
 import com.micky.commonproj.ui.view.MainView;
@@ -25,7 +26,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
- * @Project RetrofitRxAndroidDragger2
+ * @Project CommonProject
  * @Packate com.micky.commonproj.presenter
  * @Description
  * @Author Micky Liu
@@ -61,7 +62,7 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
             return;
         }
         mMainView.showProgress();
-        mSubscriptions.add(ServiceManager.getInstance().getApiService().getWeatherInfo(place, Constants.BAIDU_AK)
+        mSubscriptions.add(ServiceManager.createService(WeatherService.class).getWeatherInfo(place, Constants.BAIDU_AK)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<WeatherResponse>() {
@@ -113,7 +114,7 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
         PlaceRepository repository = new PlaceRepository();
         Context context = BaseApplication.getInstance();
         Observable placeObservable = repository.getPlaceList(context);
-        Observable weatherObservable =  ServiceManager.getInstance().getApiService().getWeatherInfo(place, Constants.BAIDU_AK);
+        Observable weatherObservable =  ServiceManager.createService(WeatherService.class).getWeatherInfo(place, Constants.BAIDU_AK);
 
         mSubscriptions.add(Observable.merge(placeObservable, weatherObservable)
                 .subscribeOn(Schedulers.io())

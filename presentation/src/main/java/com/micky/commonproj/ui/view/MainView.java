@@ -6,7 +6,7 @@ import com.micky.commonproj.domain.service.response.WeatherResponse;
 import java.util.List;
 
 /**
- * @Project RetrofitRxAndroidDragger2
+ * @Project CommonProject
  * @Packate com.micky.presentation
  * @Description
  * @Author Micky Liu

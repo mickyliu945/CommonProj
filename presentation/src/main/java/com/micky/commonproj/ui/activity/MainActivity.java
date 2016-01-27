@@ -42,7 +42,7 @@ import rx.Observable;
 import rx.functions.Action1;
 
 /**
- * @Project RetrofitRxAndroidDragger2
+ * @Project CommonProject
  * @Packate com.micky.presentation
  * @Description
  * @Author Micky Liu

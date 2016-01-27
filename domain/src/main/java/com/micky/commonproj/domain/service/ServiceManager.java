@@ -2,14 +2,19 @@ package com.micky.commonproj.domain.service;
 
 import com.micky.commonlib.utils.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
 
 /**
- * @Project RetrofitRxAndroidDragger2
+ * @Project CommonProject
  * @Packate com.micky.commonproj.domain.service
- * @Description
+ *
+ * @Description Retrofit 服务管理
+ *
  * @Author Micky Liu
  * @Email mickyliu@126.com
  * @Date 2015-12-22 14:43
@@ -17,28 +22,48 @@ import retrofit.RxJavaCallAdapterFactory;
  */
 public class ServiceManager {
 
-    private static class ServiceManagerHolder {
-        private static final ServiceManager INSTANCE = new ServiceManager();
-    }
+    private static List mServiceList = new ArrayList();
 
-    private ServiceManager() {}
+    /**
+     *  创建Retrofit Service
+     * @param t Service类型
+     * @param <T>
+     * @return
+     */
+    public static <T> T createService(Class<T> t) {
+        T service = null;
+        for (Object serviceTemp : mServiceList) {
+            if (t.equals(serviceTemp.getClass())) {
+                service = (T) serviceTemp;
+            }
+        }
 
-    public static final ServiceManager getInstance() {
-        return ServiceManagerHolder.INSTANCE;
-    }
-
-    private ApiService mApiService = null;
-
-    public ApiService getApiService() {
-        if (mApiService == null) {
+        if (service == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.ENDPOINT_WEATHER)
+                    .baseUrl(getEndPoint(t))
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
-            mApiService = retrofit.create(ApiService.class);
-            return mApiService;
+            service = retrofit.create(t);
+            mServiceList.add(service);
         }
-        return mApiService;
+        return service;
+    }
+
+    /**
+     *  获取EndPoint URL
+     * @param t Service类型
+     * @param <T>
+     * @return
+     */
+    public static <T> String getEndPoint(T t) {
+        String endPoint = "";
+        if (t.equals(WeatherService.class)) {
+            endPoint = Constants.ENDPOINT_WEATHER;
+        }
+        if ("".equals(endPoint)) {
+            throw new IllegalArgumentException("Error: Can't get end point url. Please configure at the method " + ServiceManager.class.getSimpleName() + ".getEndPoint(T t)");
+        }
+        return endPoint;
     }
 }

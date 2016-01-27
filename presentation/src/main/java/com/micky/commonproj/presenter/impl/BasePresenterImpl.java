@@ -9,7 +9,7 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * @Project RetrofitRxAndroidDragger2
+ * @Project CommonProject
  * @Packate com.micky.commonproj.presenter
  * @Description
  * @Author Micky Liu
