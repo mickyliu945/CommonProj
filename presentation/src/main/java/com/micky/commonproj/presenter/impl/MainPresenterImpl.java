@@ -62,7 +62,7 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
             return;
         }
         mMainView.showProgress();
-        mSubscriptions.add(ServiceManager.createService(WeatherService.class).getWeatherInfo(place, Constants.BAIDU_AK)
+        mSubscriptions.add(ServiceManager.createService(BaseApplication.getInstance(), WeatherService.class).getWeatherInfo(place, Constants.BAIDU_AK)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<WeatherResponse>() {
@@ -114,7 +114,7 @@ public class MainPresenterImpl extends BasePresenterImpl implements MainPresente
         PlaceRepository repository = new PlaceRepository();
         Context context = BaseApplication.getInstance();
         Observable placeObservable = repository.getPlaceList(context);
-        Observable weatherObservable =  ServiceManager.createService(WeatherService.class).getWeatherInfo(place, Constants.BAIDU_AK);
+        Observable weatherObservable =  ServiceManager.createService(BaseApplication.getInstance(), WeatherService.class).getWeatherInfo(place, Constants.BAIDU_AK);
 
         mSubscriptions.add(Observable.merge(placeObservable, weatherObservable)
                 .subscribeOn(Schedulers.io())

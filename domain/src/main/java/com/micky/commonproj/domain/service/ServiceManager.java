@@ -1,13 +1,22 @@
 package com.micky.commonproj.domain.service;
 
+import android.content.Context;
+
 import com.micky.commonlib.utils.Constants;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
+import okhttp3.Cache;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.GsonConverterFactory;
+import retrofit2.Retrofit;
+import retrofit2.RxJavaCallAdapterFactory;
 
 /**
  * @Project CommonProject
@@ -22,7 +31,7 @@ import retrofit.RxJavaCallAdapterFactory;
  */
 public class ServiceManager {
 
-    private static List mServiceList = new ArrayList();
+    private static HashMap<String, Object> mServiceMap = new HashMap<String, Object>();
 
     /**
      *  创建Retrofit Service
@@ -30,22 +39,31 @@ public class ServiceManager {
      * @param <T>
      * @return
      */
-    public static <T> T createService(Class<T> t) {
-        T service = null;
-        for (Object serviceTemp : mServiceList) {
-            if (t.equals(serviceTemp.getClass())) {
-                service = (T) serviceTemp;
-            }
-        }
+    public static <T> T createService(Context context, Class<T> t) {
+        T service = (T) mServiceMap.get(t.getName());
 
         if (service == null) {
+            //日志处理
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().addInterceptor(loggingInterceptor);
+
+            //缓存处理
+            final File baseDir = context.getCacheDir();
+            if (baseDir != null) {
+                final File cacheDir = new File(baseDir, "HttpResponseCache");
+                clientBuilder.cache(new Cache(cacheDir, Constants.HTTP_RESPONSE_DISK_CACHE_MAX_SIZE));
+            }
+            clientBuilder.interceptors().add(new ServiceInterceptor());
+
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(getEndPoint(t))
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .client(clientBuilder.build())
                     .build();
             service = retrofit.create(t);
-            mServiceList.add(service);
+            mServiceMap.put(t.getName(), service);
         }
         return service;
     }
@@ -56,14 +74,26 @@ public class ServiceManager {
      * @param <T>
      * @return
      */
-    public static <T> String getEndPoint(T t) {
+    public static <T> String getEndPoint(Class<T> t) {
         String endPoint = "";
-        if (t.equals(WeatherService.class)) {
+        if (t.getName().equals(WeatherService.class.getName())) {
             endPoint = Constants.ENDPOINT_WEATHER;
         }
         if ("".equals(endPoint)) {
             throw new IllegalArgumentException("Error: Can't get end point url. Please configure at the method " + ServiceManager.class.getSimpleName() + ".getEndPoint(T t)");
         }
         return endPoint;
+    }
+
+    /**
+     * OkHttpClient的拦截器
+     */
+    static class ServiceInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            Response response = chain.proceed(request);
+            return response;
+        }
     }
 }
