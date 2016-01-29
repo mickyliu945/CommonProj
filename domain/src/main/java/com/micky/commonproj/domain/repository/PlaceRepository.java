@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.micky.commonproj.domain.db.DaoManagerFactory;
 import com.micky.commonproj.domain.model.Place;
 
 import java.io.ByteArrayOutputStream;
@@ -41,7 +42,8 @@ public class PlaceRepository {
                     }
                     String json =  new String(outStream.toByteArray(),"UTF-8");
                     Gson gson = new GsonBuilder().create();
-                    List<Place> placeList = gson.fromJson(json, new TypeToken<List<Place>>() {}.getType());
+                    List<Place> placeList = gson.fromJson(json, new TypeToken<List<Place>>() {
+                    }.getType());
                     subscriber.onNext(placeList);
                 } catch (Exception e) {
                     subscriber.onError(e);

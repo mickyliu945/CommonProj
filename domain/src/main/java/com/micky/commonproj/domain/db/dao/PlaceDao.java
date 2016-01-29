@@ -27,6 +27,7 @@ public class PlaceDao extends AbstractDao<Place, Long> {
         public final static Property Label = new Property(1, String.class, "label", false, "LABEL");
         public final static Property Name = new Property(2, String.class, "name", false, "NAME");
         public final static Property Pinyin = new Property(3, String.class, "pinyin", false, "PINYIN");
+        public final static Property Province = new Property(4, String.class, "province", false, "PROVINCE");
     };
 
 
@@ -45,7 +46,8 @@ public class PlaceDao extends AbstractDao<Place, Long> {
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"LABEL\" TEXT," + // 1: label
                 "\"NAME\" TEXT," + // 2: name
-                "\"PINYIN\" TEXT);"); // 3: pinyin
+                "\"PINYIN\" TEXT," + // 3: pinyin
+                "\"PROVINCE\" TEXT);"); // 4: province
     }
 
     /** Drops the underlying database table. */
@@ -78,6 +80,11 @@ public class PlaceDao extends AbstractDao<Place, Long> {
         if (pinyin != null) {
             stmt.bindString(4, pinyin);
         }
+ 
+        String province = entity.getProvince();
+        if (province != null) {
+            stmt.bindString(5, province);
+        }
     }
 
     /** @inheritdoc */
@@ -93,7 +100,8 @@ public class PlaceDao extends AbstractDao<Place, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // label
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // pinyin
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // pinyin
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // province
         );
         return entity;
     }
@@ -105,6 +113,7 @@ public class PlaceDao extends AbstractDao<Place, Long> {
         entity.setLabel(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setPinyin(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setProvince(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
      }
     
     /** @inheritdoc */

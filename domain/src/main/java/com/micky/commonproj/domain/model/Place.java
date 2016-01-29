@@ -7,12 +7,13 @@ package com.micky.commonproj.domain.model;
 /**
  * Entity mapped to table "PLACE".
  */
-public class Place {
+public class Place implements Comparable<Place> {
 
     private Long id;
     private String label;
     private String name;
     private String pinyin;
+    private String province;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
@@ -24,11 +25,12 @@ public class Place {
         this.id = id;
     }
 
-    public Place(Long id, String label, String name, String pinyin) {
+    public Place(Long id, String label, String name, String pinyin, String province) {
         this.id = id;
         this.label = label;
         this.name = name;
         this.pinyin = pinyin;
+        this.province = province;
     }
 
     public Long getId() {
@@ -61,6 +63,14 @@ public class Place {
 
     public void setPinyin(String pinyin) {
         this.pinyin = pinyin;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     // KEEP METHODS - put your custom methods here

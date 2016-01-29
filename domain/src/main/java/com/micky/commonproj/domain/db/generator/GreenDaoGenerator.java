@@ -20,10 +20,10 @@ public class GreenDaoGenerator {
 
     /**
      * 数据库版本
-     * 数据库需要升级的时候请在DaoMaster中的onUpgrade方法中加入:
+     * 如果数据库需要升级,请在DaoMaster中的onUpgrade方法中加入:
      * MigrationHelper.getInstance().migrate(db, IpInfoDao.class, PlaceDao.class，...);
      */
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
 
     public static void main(String[] args) throws Exception {
         if (GENERATE_MODEL) {
@@ -52,5 +52,6 @@ public class GreenDaoGenerator {
         card.addStringProperty("label");
         card.addStringProperty("name");
         card.addStringProperty("pinyin");
+        card.addStringProperty("province");
     }
 }
