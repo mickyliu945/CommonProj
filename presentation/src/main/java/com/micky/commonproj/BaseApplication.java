@@ -7,6 +7,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.micky.commonlib.utils.Constants;
 import com.micky.commonlib.utils.CrashHandler;
 import com.micky.commonlib.utils.FileUtils;
+import com.micky.commonproj.domain.DomainInit;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -35,6 +36,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         instance = this;
         CrashHandler.getInstance().init(this);
+        DomainInit.init(this);
         mRefWatcher = Constants.DEBUG ?  LeakCanary.install(this) : RefWatcher.DISABLED;
         Fresco.initialize(this);
         initLog4j();

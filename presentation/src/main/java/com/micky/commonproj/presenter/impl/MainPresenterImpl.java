@@ -2,7 +2,6 @@ package com.micky.commonproj.presenter.impl;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.micky.commonlib.utils.Constants;
 import com.micky.commonlib.utils.RxBus;

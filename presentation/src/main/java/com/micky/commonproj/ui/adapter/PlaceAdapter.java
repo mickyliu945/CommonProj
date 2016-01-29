@@ -1,6 +1,5 @@
 package com.micky.commonproj.ui.adapter;
 
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +44,7 @@ public class PlaceAdapter extends BaseListAdapter<Place> {
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         Place place = getItem(position);
         itemViewHolder.place = place;
-        itemViewHolder.tvPlace.setText(place.name);
+        itemViewHolder.tvPlace.setText(place.getName());
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{

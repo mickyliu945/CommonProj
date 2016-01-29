@@ -1,6 +1,5 @@
 package com.micky.commonproj.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
@@ -9,16 +8,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
-import android.util.TimeUtils;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 import com.jakewharton.rxbinding.view.RxView;
 import com.micky.commonlib.utils.DateUtils;
 import com.micky.commonlib.utils.ViewUtils;
@@ -38,7 +33,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
-import rx.Observable;
 import rx.functions.Action1;
 
 /**
@@ -133,7 +127,7 @@ public class MainActivity extends BaseActivity implements MainView {
         mPlaceAdapter.setOnPlaceClickListener(new PlaceAdapter.OnPlaceClickListener() {
             @Override
             public void onClick(View view, Place place) {
-                mMainPresenter.getWeatherData(place.name);
+                mMainPresenter.getWeatherData(place.getName());
                 mDrawerLayout.closeDrawer(GravityCompat.START);
             }
         });
