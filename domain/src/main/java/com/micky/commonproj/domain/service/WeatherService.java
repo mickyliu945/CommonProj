@@ -3,6 +3,10 @@ package com.micky.commonproj.domain.service;
 
 import com.micky.commonproj.domain.service.response.WeatherResponse;
 
+import org.w3c.dom.UserDataHandler;
+
+import java.util.List;
+
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;

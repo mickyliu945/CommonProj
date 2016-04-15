@@ -52,7 +52,7 @@ public class ServiceManager {
                     Logger.getLogger(getClass()).debug(s);
                 }
             });
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().addInterceptor(loggingInterceptor);
 
             //缓存处理
