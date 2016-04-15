@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.micky.commonlib.utils.Constants;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -44,7 +46,12 @@ public class ServiceManager {
 
         if (service == null) {
             //日志处理
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                @Override
+                public void log(String s) {
+                    Logger.getLogger(getClass()).debug(s);
+                }
+            });
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().addInterceptor(loggingInterceptor);
 
