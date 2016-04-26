@@ -45,15 +45,20 @@ public class ServiceManager {
         T service = (T) mServiceMap.get(t.getName());
 
         if (service == null) {
-            //日志处理
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-                @Override
-                public void log(String s) {
-                    Logger.getLogger(getClass()).debug(s);
-                }
-            });
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().addInterceptor(loggingInterceptor);
+            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+
+            if (Constants.DEBUG) {
+                //日志处理
+                HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                    @Override
+                    public void log(String s) {
+                        Logger.getLogger(getClass()).debug(s);
+                    }
+                });
+                loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                clientBuilder.addInterceptor(loggingInterceptor);
+            }
+
 
             //缓存处理
             final File baseDir = context.getCacheDir();
