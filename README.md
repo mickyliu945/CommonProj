@@ -10,7 +10,7 @@
 </br>
 </br>
 </br>
- ![image](https://github.com/mickyliu945/CommonProj/blob/master/screenshots/c.png)
+ ![image]( https://github.com/mickyliu945/CommonProj/blob/master/screenshots/c.png)
 </br>
 </br>
 </br>
